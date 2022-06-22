@@ -66,7 +66,8 @@ class SignupReviewUserDetailsScreen extends StatelessWidget {
                                     height: 150,
                                     width: 150,
                                     decoration: BoxDecoration(
-                                      color: AppConstants.customWhite.withOpacity(.6),
+                                      color: AppConstants.customWhite
+                                          .withOpacity(.6),
                                       borderRadius: BorderRadius.circular(
                                         150,
                                       ),
@@ -129,7 +130,7 @@ class SignupReviewUserDetailsScreen extends StatelessWidget {
                       ),
                       alignment: Alignment.center,
                       child: Text(
-                        'Kyoto',
+                        controller.usernameTextEditingController.value.text,
                         style: AppConstants.body_TextStyle.copyWith(
                           color: AppConstants.secondaryColor,
                         ),
@@ -163,7 +164,7 @@ class SignupReviewUserDetailsScreen extends StatelessWidget {
                       ),
                       alignment: Alignment.center,
                       child: Text(
-                        'Kyoto@gmail.com',
+                        controller.emailTextEditingController.value.text,
                         style: AppConstants.body_TextStyle.copyWith(
                           color: AppConstants.secondaryColor,
                         ),
@@ -197,7 +198,7 @@ class SignupReviewUserDetailsScreen extends StatelessWidget {
                       ),
                       alignment: Alignment.center,
                       child: Text(
-                        '01741499768',
+                        controller.phoneTextEditingController.value.text,
                         style: AppConstants.body_TextStyle.copyWith(
                           color: AppConstants.secondaryColor,
                         ),

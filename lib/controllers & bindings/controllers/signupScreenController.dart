@@ -24,7 +24,7 @@ class SignupScreenController extends GetxController {
   }
 
   onNextButtonClick() {
-    if (_isSignupFormFilled == true) {
+    if (_isSignupFormFilled()) {
       Get.to(
         () => SignupReviewUserDetailsScreen(),
       );
@@ -37,7 +37,17 @@ class SignupScreenController extends GetxController {
     }
   }
 
+  onRegisterButtonClick() {
+    
+  }
+
   bool _isSignupFormFilled() {
+    if (usernameTextEditingController.value.text.isNotEmpty ||
+        emailTextEditingController.value.text.isNotEmpty ||
+        phoneTextEditingController.value.text.isNotEmpty ||
+        passwordTextEditingController.value.text.isNotEmpty) {
+      return true;
+    }
     return false;
   }
 }
