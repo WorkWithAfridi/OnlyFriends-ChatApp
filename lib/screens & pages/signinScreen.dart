@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
+import 'package:only_friends/controllers%20&%20bindings/controllers/authenticationController.dart';
+import 'package:only_friends/controllers%20&%20bindings/controllers/signinScreenController.dart';
 
 import '../data/constants/app_constants.dart';
 import '../routing/routes.dart';
@@ -11,7 +13,9 @@ import '../widgets/customTextField.dart';
 import 'forgotPasswordScreen.dart';
 
 class SigninScreen extends StatelessWidget {
-  const SigninScreen({Key? key}) : super(key: key);
+  SigninScreen({Key? key}) : super(key: key);
+
+  SigninScreenController controller = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +36,7 @@ class SigninScreen extends StatelessWidget {
               const SizedBox(
                 height: 20,
               ),
-              Text(
+              const Text(
                 'Signin',
                 style: AppConstants.appTitle_TextStyle,
               ),
@@ -46,7 +50,8 @@ class SigninScreen extends StatelessWidget {
                 height: 15,
               ),
               GetTextField(
-                textEditingController: TextEditingController(),
+                textEditingController:
+                    controller.emailTextEditingController.value,
                 hintText: "Email address or Phone number...",
                 textInputType: TextInputType.emailAddress,
                 maxLines: 1,
@@ -55,7 +60,8 @@ class SigninScreen extends StatelessWidget {
                 height: 10,
               ),
               GetTextField(
-                textEditingController: TextEditingController(),
+                textEditingController:
+                    controller.passwordTextEditingController.value,
                 hintText: "Password",
                 textInputType: TextInputType.text,
                 maxLines: 1,
@@ -85,12 +91,14 @@ class SigninScreen extends StatelessWidget {
               const SizedBox(
                 height: 10,
               ),
-              CustomButton(
-                callBackFunction: () {
-                  Get.offAllNamed(ROUTES.getHomeFrameRoute);
-                },
-                title: "Signin",
-              ),
+              Obx(() => CustomButton(
+                    callBackFunction: () {
+                      controller.onSigninButtonClick();
+                    },
+                    title: "Signin",
+                    isLoading:
+                        controller.showSigninButtonLoadingAnimation.value,
+                  )),
               const SizedBox(
                 height: 10,
               ),

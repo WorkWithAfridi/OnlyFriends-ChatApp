@@ -19,7 +19,7 @@ class SignupScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: CustomBackButton(),
-        title: Text(
+        title: const Text(
           'New user?',
           style: AppConstants.appTitle_TextStyle,
         ),
@@ -37,7 +37,7 @@ class SignupScreen extends StatelessWidget {
               const SizedBox(
                 height: 20,
               ),
-              Text(
+              const Text(
                 'Signup',
                 style: AppConstants.appTitle_TextStyle,
               ),

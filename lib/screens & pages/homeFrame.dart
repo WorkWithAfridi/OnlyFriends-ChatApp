@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
+import 'package:only_friends/controllers%20&%20bindings/controllers/authenticationController.dart';
 
 import '../controllers & bindings/controllers/homeFrameController.dart';
 import '../data/constants/app_constants.dart';
@@ -20,6 +21,7 @@ class HomeFrame extends StatelessWidget {
   HomeFrame({Key? key}) : super(key: key);
 
   HomeFrameController controller = Get.find();
+  AuthenticationController authenticationController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +39,8 @@ class HomeFrame extends StatelessWidget {
               radius: 14,
               backgroundColor: AppConstants.customWhite,
               backgroundImage: NetworkImage(
-                  'https://images.unsplash.com/photo-1655370333086-f6492a519d8f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=928&q=80'),
+                authenticationController.userModel!.profilePictureUrl,
+              ),
             ),
           ),
           const SizedBox(

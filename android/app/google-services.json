@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "439932427384",
+    "project_id": "onlyfriends-456ee",
+    "storage_bucket": "onlyfriends-456ee.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:439932427384:android:adbadc01610b4197c4a18d",
+        "android_client_info": {
+          "package_name": "com.example.only_friends"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "439932427384-eoeu982dimqo8hf918at5j42eq6sjgmk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDZ_VrlNzqmnnhBg6NNIrJSK9I0AP9njlc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "439932427384-eoeu982dimqo8hf918at5j42eq6sjgmk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

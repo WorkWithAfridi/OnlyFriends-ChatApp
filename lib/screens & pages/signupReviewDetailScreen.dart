@@ -18,12 +18,12 @@ class SignupReviewUserDetailsScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: CustomBackButton(),
-        title: Text(
+        title: const Text(
           'Review Details',
           style: AppConstants.appTitle_TextStyle,
         ),
       ),
-      body: Container(
+      body: SizedBox(
         height: Get.height,
         width: Get.width,
         child: SingleChildScrollView(
@@ -77,7 +77,7 @@ class SignupReviewUserDetailsScreen extends StatelessWidget {
                                     onPressed: () {
                                       moduleController.selectProfileImage();
                                     },
-                                    icon: Icon(
+                                    icon: const Icon(
                                       Icons.add_a_photo,
                                       color: AppConstants.secondaryColor,
                                       size: 25,
@@ -107,7 +107,7 @@ class SignupReviewUserDetailsScreen extends StatelessWidget {
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
+                      children: const [
                         Text(
                           'Username',
                           style: AppConstants.body_TextStyle,
@@ -141,7 +141,7 @@ class SignupReviewUserDetailsScreen extends StatelessWidget {
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
+                      children: const [
                         Text(
                           'Email Address',
                           style: AppConstants.body_TextStyle,
@@ -175,7 +175,7 @@ class SignupReviewUserDetailsScreen extends StatelessWidget {
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
+                      children: const [
                         Text(
                           'Phone Number',
                           style: AppConstants.body_TextStyle,
@@ -207,9 +207,15 @@ class SignupReviewUserDetailsScreen extends StatelessWidget {
                     const SizedBox(
                       height: 15,
                     ),
-                    CustomButton(
-                      callBackFunction: () {},
-                      title: "Register",
+                    Obx(
+                      () => CustomButton(
+                        callBackFunction: () {
+                          controller.onRegisterButtonClick();
+                        },
+                        title: "Register",
+                        isLoading:
+                            controller.showRegisterButtonLoadingAnimation.value,
+                      ),
                     )
                   ],
                 ),

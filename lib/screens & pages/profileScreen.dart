@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
+import 'package:only_friends/controllers%20&%20bindings/controllers/authenticationController.dart';
+import 'package:only_friends/controllers%20&%20bindings/controllers/profileScreenController.dart';
 
 import '../data/constants/app_constants.dart';
 import '../routing/routes.dart';
@@ -9,14 +12,17 @@ import '../widgets/customBackButton.dart';
 import '../widgets/customDivider.dart';
 
 class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({Key? key}) : super(key: key);
+  ProfileScreen({Key? key}) : super(key: key);
+
+  ProfileScreenController controller = Get.find();
+  AuthenticationController authenticationController = Get.find();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         leading: CustomBackButton(),
-        title: Text(
+        title: const Text(
           'Profile',
           style: AppConstants.appTitle_TextStyle,
         ),
@@ -42,21 +48,51 @@ class ProfileScreen extends StatelessWidget {
                     CircleAvatar(
                       radius: 80,
                       backgroundImage: NetworkImage(
-                        'https://images.unsplash.com/photo-1555952517-2e8e729e0b44?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80',
+                        authenticationController.userModel!.profilePictureUrl,
                       ),
                     ),
                     const SizedBox(
                       height: 10,
                     ),
                     Text(
-                      "Khondakar Afridi",
+                      authenticationController.userModel!.username,
                       style: AppConstants.labelMid_TextStyle
                           .copyWith(fontSize: 18),
                     ),
                     Text(
-                      "01741499768",
+                      authenticationController.userModel!.emailAddress,
                       style: AppConstants.body_TextStyle,
                     ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Clipboard.setData(
+                          ClipboardData(
+                            text: authenticationController
+                                .userModel!.userUniqueId,
+                          ),
+                        );
+                      },
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "OnlyFriends ID",
+                            style: AppConstants.body_TextStyle.copyWith(
+                              color: AppConstants.darkGrey,
+                            ),
+                          ),
+                          Text(
+                            authenticationController.userModel!.userUniqueId,
+                            style: AppConstants.body_TextStyle.copyWith(
+                              color: AppConstants.secondaryColor,
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
                   ],
                 ),
               ),
@@ -203,7 +239,7 @@ class ProfileScreen extends StatelessWidget {
                     const CustomDivider(gap: 10),
                     GestureDetector(
                       onTap: () {
-                        Get.offAllNamed(ROUTES.getSigninScreenRoute);
+                        controller.onSignoutButtonClick();
                       },
                       child: Container(
                         color: Colors.transparent,

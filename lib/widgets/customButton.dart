@@ -7,9 +7,13 @@ import '../data/constants/app_constants.dart';
 class CustomButton extends StatelessWidget {
   final Function callBackFunction;
   final String title;
-  const CustomButton(
-      {Key? key, required this.callBackFunction, required this.title})
-      : super(key: key);
+  bool isLoading;
+  CustomButton({
+    Key? key,
+    required this.callBackFunction,
+    required this.title,
+    this.isLoading = false,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,18 +23,29 @@ class CustomButton extends StatelessWidget {
       },
       child: Container(
         height: 50,
-        width: Get.height,
+        width: Get.width,
+        padding: isLoading ? const EdgeInsets.all(5) : const EdgeInsets.all(0),
         decoration: BoxDecoration(
           gradient: AppConstants.customGradientTwo,
           borderRadius: BorderRadius.circular(5),
         ),
         alignment: Alignment.center,
-        child: Text(
-          title,
-          style: AppConstants.labelMid_TextStyle.copyWith(
-            color: AppConstants.customWhite,
-          ),
-        ),
+        child: isLoading
+            ? const Center(
+                child: SizedBox(
+                  height: 20,
+                  width: 20,
+                  child: CircularProgressIndicator(
+                    color: AppConstants.customWhite,
+                  ),
+                ),
+              )
+            : Text(
+                title,
+                style: AppConstants.labelMid_TextStyle.copyWith(
+                  color: AppConstants.customWhite,
+                ),
+              ),
       ),
     );
   }

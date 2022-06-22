@@ -53,6 +53,7 @@ class AppConstants {
 
   //App Data
   static const String appName = "OnlyFriends";
+  static const Duration waitTime = Duration(seconds: 2);
 
   //Gobal dimentions
   static const EdgeInsets globalPadding = EdgeInsets.symmetric(horizontal: 20);
