@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:only_friends/routing/routes.dart';
 
-import '../../data/constants/app_constants.dart';
-import '../../widgets/functionalWidgets/customSnackbar.dart';
-import 'authenticationController.dart';
+import '../../../data/constants/app_constants.dart';
+import '../../../widgets/functionalWidgets/customSnackbar.dart';
+import '../globalControllers/authenticationController.dart';
 
 class SigninScreenController extends GetxController {
   var emailTextEditingController = TextEditingController().obs;

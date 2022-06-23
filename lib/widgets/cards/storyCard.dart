@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:only_friends/data/models/userModel.dart';
 
 import '../../data/constants/app_constants.dart';
 
 class StoryCard extends StatelessWidget {
+  final UserModel userModel;
   const StoryCard({
     Key? key,
+    required this.userModel,
   }) : super(key: key);
 
   @override
@@ -20,7 +23,8 @@ class StoryCard extends StatelessWidget {
               CircleAvatar(
                 radius: 25,
                 backgroundImage: NetworkImage(
-                    'https://images.unsplash.com/photo-1524638431109-93d95c968f03?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80'),
+                  userModel.profilePictureUrl,
+                ),
               ),
               Positioned(
                 right: 0,
@@ -29,17 +33,14 @@ class StoryCard extends StatelessWidget {
                   height: 15,
                   width: 15,
                   decoration: BoxDecoration(
-                    borderRadius:
-                        BorderRadius.circular(15),
+                    borderRadius: BorderRadius.circular(15),
                     color: Colors.white,
                   ),
                   child: Padding(
-                    padding:
-                        const EdgeInsets.all(2.0),
+                    padding: const EdgeInsets.all(2.0),
                     child: Container(
                       decoration: BoxDecoration(
-                        borderRadius:
-                            BorderRadius.circular(15),
+                        borderRadius: BorderRadius.circular(15),
                         color: Colors.red,
                       ),
                     ),
@@ -52,9 +53,9 @@ class StoryCard extends StatelessWidget {
             height: 2,
           ),
           Text(
-            'Budia Chan Chan'.substring(
+            userModel.username.substring(
               0,
-              'Budia Chan Chan'.indexOf(" "),
+              userModel.username.indexOf(" "),
             ),
             style: AppConstants.body_TextStyle.copyWith(
               fontWeight: FontWeight.w500,

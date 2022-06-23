@@ -1,16 +1,22 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
+import 'package:only_friends/controllers%20&%20bindings/controllers/globalControllers/authenticationController.dart';
+import 'package:only_friends/data/models/chatChannelModel.dart';
+import 'package:only_friends/data/models/userModel.dart';
+import 'package:only_friends/widgets/customCircularProgressLoadingIndicator.dart';
 import '../../widgets/cards/messageCard.dart';
 import '../../widgets/cards/storyCard.dart';
-import '../controllers & bindings/controllers/homeFrameController.dart';
+import '../controllers & bindings/controllers/viewControllers/homeFrameController.dart';
 import '../data/constants/app_constants.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({Key? key}) : super(key: key);
 
   HomeFrameController homeFrameController = Get.find();
+  AuthenticationController authenticationController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -92,15 +98,47 @@ class HomePage extends StatelessWidget {
                           const SizedBox(
                             width: 20,
                           ),
-                          ListView.builder(
-                            itemCount: 10,
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            scrollDirection: Axis.horizontal,
-                            itemBuilder: (context, index) {
-                              return StoryCard();
+                          StreamBuilder(
+                            stream: FirebaseFirestore.instance
+                                .collection('users')
+                                .where(
+                                  "userUniqueId",
+                                  whereIn: authenticationController
+                                      .userModel!.friendList,
+                                )
+                                .snapshots(),
+                            builder: (context,
+                                AsyncSnapshot<
+                                        QuerySnapshot<Map<String, dynamic>>>
+                                    snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return const CustomCircularProgressLoadingIndicator();
+                              }
+                              return ListView.builder(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                scrollDirection: Axis.horizontal,
+                                itemCount: snapshot.data!.docs.length,
+                                itemBuilder: (context, index) {
+                                  return StoryCard(
+                                    userModel: UserModel.fromSnapshot(
+                                      snapshot.data!.docs[index],
+                                    ),
+                                  );
+                                },
+                              );
                             },
                           ),
+                          // ListView.builder(
+                          //   itemCount: 10,
+                          //   shrinkWrap: true,
+                          //   physics: const NeverScrollableScrollPhysics(),
+                          //   scrollDirection: Axis.horizontal,
+                          //   itemBuilder: (context, index) {
+                          //     return StoryCard();
+                          //   },
+                          // ),
                           const SizedBox(
                             width: 8,
                           ),
@@ -119,7 +157,7 @@ class HomePage extends StatelessWidget {
                       children: [
                         Text(
                           "Recent Chats",
-                          style:AppConstants. labelMid_TextStyle.copyWith(
+                          style: AppConstants.labelMid_TextStyle.copyWith(
                             color: Colors.black.withOpacity(.8),
                             fontSize: 14,
                           ),
@@ -127,12 +165,73 @@ class HomePage extends StatelessWidget {
                         const SizedBox(
                           height: 5,
                         ),
-                        ListView.builder(
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemCount: 10,
-                          itemBuilder: (context, index) {
-                            return MessageCard();
+                        StreamBuilder(
+                          stream: FirebaseFirestore.instance
+                              .collection('chatChannels')
+                              .where(
+                                "chatChannelId",
+                                whereIn: authenticationController
+                                    .userModel!.chatChannels,
+                              )
+                              .snapshots(),
+                          builder: (context,
+                              AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
+                                  snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return const CustomCircularProgressLoadingIndicator();
+                            }
+                            print(snapshot.data!.docs.length);
+                            if (snapshot.data!.docs.length < 1) {
+                              return Container(
+                                width: double.maxFinite,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      "It's quite empty down here. :)\n Maybe add someone and start chatting!!",
+                                      textAlign: TextAlign.center,
+                                      style:
+                                          AppConstants.body_TextStyle.copyWith(
+                                        color: Colors.black.withOpacity(.7),
+                                      ),
+                                    ),
+                                    GestureDetector(
+                                      onTap: () {
+                                        homeFrameController.pageIndex.value = 1;
+                                        homeFrameController
+                                            .homeFramePageController.value
+                                            .jumpToPage(
+                                          1,
+                                        );
+                                      },
+                                      child: Text(
+                                        "Get Started!!",
+                                        style: AppConstants.body_TextStyle
+                                            .copyWith(
+                                                color: AppConstants
+                                                    .secondaryColor
+                                                    .withOpacity(.8),
+                                                fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }
+                            return ListView.builder(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: snapshot.data!.docs.length,
+                              itemBuilder: (context, index) {
+                                return MessageCard(
+                                  chatModel: ChatChannelModel.fromSnapshot(
+                                    snapshot.data!.docs[index],
+                                  ),
+                                );
+                              },
+                            );
                           },
                         ),
                       ],

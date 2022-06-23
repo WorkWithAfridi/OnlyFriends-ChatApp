@@ -1,8 +1,8 @@
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:only_friends/controllers%20&%20bindings/controllers/authenticationController.dart';
+import 'package:only_friends/controllers%20&%20bindings/controllers/globalControllers/authenticationController.dart';
 
-import '../../routing/routes.dart';
+import '../../../routing/routes.dart';
 
 class SplashScreenController extends GetxController {
   AuthenticationController authController = Get.find();

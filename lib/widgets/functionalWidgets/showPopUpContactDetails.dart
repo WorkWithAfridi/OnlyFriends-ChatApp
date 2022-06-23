@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:only_friends/controllers%20&%20bindings/controllers/globalControllers/authenticationController.dart';
+import 'package:only_friends/controllers%20&%20bindings/controllers/globalControllers/firebaseController.dart';
+import 'package:only_friends/data/models/userModel.dart';
+import 'package:only_friends/screens%20&%20pages/chatScreen.dart';
 
 import '../../data/constants/app_constants.dart';
 
-void showUserDataPopUp() {
+void showUserDataPopUp({required UserModel userModel}) {
   Get.dialog(
     Padding(
       padding: const EdgeInsets.symmetric(
@@ -20,7 +24,7 @@ void showUserDataPopUp() {
             borderRadius: BorderRadius.circular(8),
           ),
           child: SingleChildScrollView(
-              physics:const  BouncingScrollPhysics(),
+            physics: const BouncingScrollPhysics(),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -36,7 +40,7 @@ void showUserDataPopUp() {
                           topRight: Radius.circular(8),
                         ),
                         child: Image.network(
-                          'https://images.unsplash.com/photo-1524638431109-93d95c968f03?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80',
+                          userModel.profilePictureUrl,
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -71,14 +75,14 @@ void showUserDataPopUp() {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "Budia Chan",
-                                style:
-                                    AppConstants.labelMid_TextStyle.copyWith(fontSize: 18),
+                                userModel.username,
+                                style: AppConstants.labelMid_TextStyle
+                                    .copyWith(fontSize: 18),
                               ),
-                              Text(
-                                "01741499768",
-                                style: AppConstants.body_TextStyle,
-                              ),
+                              Text(userModel.bio,
+                                  style: AppConstants.body_TextStyle.copyWith(
+                                    color: AppConstants.darkGrey,
+                                  )),
                             ],
                           ),
                           IconButton(
@@ -91,49 +95,59 @@ void showUserDataPopUp() {
                         ],
                       ),
                       const SizedBox(
-                        height: 15,
+                        height: 10,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Expanded(
-                            child: Container(
-                              height: 50,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(50),
-                                gradient: LinearGradient(
-                                  colors: [
-                                    AppConstants.primaryColor,
-                                    AppConstants.secondaryColor,
-                                  ],
-                                  begin: Alignment.topRight,
-                                  end: Alignment.bottomLeft,
+                            child: GestureDetector(
+                              onTap: () async {
+                                AuthenticationController
+                                    authenticationController = Get.find();
+                                FirebaseController firebaseController =
+                                    Get.find();
+                                String isSuccess = await firebaseController
+                                    .startANewChatChannel(
+                                  friendUid: userModel.uid,
+                                  userUid:
+                                      authenticationController.userModel!.uid,
+                                );
+                                Get.back();
+                                Get.to(() => ChatScreen());
+                              },
+                              child: Container(
+                                height: 50,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(50),
+                                  gradient: AppConstants.customGradientTwo,
                                 ),
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.chat,
-                                    size: 20,
-                                    color: AppConstants.customWhite,
-                                  ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Text(
-                                    "Start a Conversation",
-                                    style: AppConstants.labelMid_TextStyle.copyWith(
-                                      fontSize: 12,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    const Icon(
+                                      Icons.chat,
+                                      size: 20,
                                       color: AppConstants.customWhite,
                                     ),
-                                  )
-                                ],
+                                    const SizedBox(
+                                      width: 10,
+                                    ),
+                                    Text(
+                                      "Start a Conversation",
+                                      style: AppConstants.labelMid_TextStyle
+                                          .copyWith(
+                                        fontSize: 12,
+                                        color: AppConstants.customWhite,
+                                      ),
+                                    )
+                                  ],
+                                ),
                               ),
                             ),
                           ),
                           const SizedBox(
-                            width: 5,
+                            width: 10,
                           ),
                           Container(
                             height: 50,
@@ -176,6 +190,30 @@ void showUserDataPopUp() {
                             'Block this user',
                             style: AppConstants.labelMid_TextStyle.copyWith(
                               color: Colors.red,
+                              fontSize: 12,
+                            ),
+                          )
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const Icon(
+                            Icons.close,
+                            color: Colors.grey,
+                            size: 20,
+                          ),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          Text(
+                            'Unfriend ',
+                            style: AppConstants.labelMid_TextStyle.copyWith(
+                              color: Colors.grey,
                               fontSize: 12,
                             ),
                           )

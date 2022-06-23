@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-import '../controllers/onBoardingScreenController.dart';
+import '../../controllers/viewControllers/onBoardingScreenController.dart';
 
 
 

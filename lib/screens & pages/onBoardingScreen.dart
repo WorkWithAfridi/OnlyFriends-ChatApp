@@ -3,7 +3,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
-import '../controllers & bindings/controllers/onBoardingScreenController.dart';
+import '../controllers & bindings/controllers/viewControllers/onBoardingScreenController.dart';
 import '../data/constants/app_constants.dart';
 import '../widgets/appData/appIconTitle.dart';
 

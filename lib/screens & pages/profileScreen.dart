@@ -3,8 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
-import 'package:only_friends/controllers%20&%20bindings/controllers/authenticationController.dart';
-import 'package:only_friends/controllers%20&%20bindings/controllers/profileScreenController.dart';
+import 'package:only_friends/controllers%20&%20bindings/controllers/globalControllers/authenticationController.dart';
+import 'package:only_friends/controllers%20&%20bindings/controllers/viewControllers/profileScreenController.dart';
 
 import '../data/constants/app_constants.dart';
 import '../routing/routes.dart';
@@ -90,6 +90,46 @@ class ProfileScreen extends StatelessWidget {
                               color: AppConstants.secondaryColor,
                             ),
                           ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          authenticationController.userModel!.bio ==
+                                  "Available on OnlyFriends!"
+                              ? Column(
+                                  children: [
+                                    Text(
+                                      authenticationController.userModel!.bio,
+                                      style:
+                                          AppConstants.body_TextStyle.copyWith(
+                                        color: AppConstants.darkGrey,
+                                      ),
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          "Edit bio ",
+                                          style: AppConstants.body_TextStyle
+                                              .copyWith(
+                                            color: AppConstants.primaryColor,
+                                          ),
+                                        ),
+                                        const Icon(
+                                          Icons.edit,
+                                          color: AppConstants.primaryColor,
+                                          size: 15,
+                                        )
+                                      ],
+                                    ),
+                                  ],
+                                )
+                              : Text(
+                                  "OnlyFriends ID",
+                                  style: AppConstants.body_TextStyle.copyWith(
+                                    color: AppConstants.darkGrey,
+                                  ),
+                                ),
                         ],
                       ),
                     )

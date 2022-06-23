@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
-import 'package:only_friends/controllers%20&%20bindings/controllers/authenticationController.dart';
-import 'package:only_friends/controllers%20&%20bindings/controllers/signinScreenController.dart';
+import 'package:only_friends/controllers%20&%20bindings/controllers/globalControllers/authenticationController.dart';
+import 'package:only_friends/controllers%20&%20bindings/controllers/viewControllers/signinScreenController.dart';
 
 import '../data/constants/app_constants.dart';
 import '../routing/routes.dart';

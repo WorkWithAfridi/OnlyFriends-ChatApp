@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../controllers & bindings/controllers/splashScreenController.dart';
+import '../controllers & bindings/controllers/viewControllers/splashScreenController.dart';
 import '../widgets/appData/appIconTitle.dart';
 
 class SplashScreen extends StatelessWidget {

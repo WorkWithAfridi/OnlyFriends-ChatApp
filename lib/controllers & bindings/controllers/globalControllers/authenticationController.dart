@@ -89,9 +89,11 @@ class AuthenticationController extends GetxController {
         userUniqueId: userUniquieId,
         profilePictureUrl: profilePictureUrl,
         uid: uid,
-        bio: "",
+        bio: "Available on OnlyFriends!",
         chatChannels: [],
-        friendList: [],
+        friendList: [
+          userUniquieId,
+        ],
       );
       await _firestore.collection('users').doc(uid).set(user.toJson());
       return "Success";

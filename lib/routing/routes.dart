@@ -1,13 +1,15 @@
 import 'package:get/get.dart';
-import 'package:only_friends/controllers%20&%20bindings/bindings/signupScreenBinding.dart';
+import 'package:only_friends/controllers%20&%20bindings/bindings/viewBindings/addAContractScreenBindings.dart';
+import 'package:only_friends/screens%20&%20pages/addAContactScreen.dart';
 import 'package:only_friends/screens%20&%20pages/signupScreen.dart';
 
-import '../controllers & bindings/bindings/chatScreenBinding.dart';
-import '../controllers & bindings/bindings/homeFrameBinding.dart';
-import '../controllers & bindings/bindings/onBoardingScreenBinding.dart';
-import '../controllers & bindings/bindings/profileScreenBinding.dart';
-import '../controllers & bindings/bindings/signinScreenBinding.dart';
-import '../controllers & bindings/bindings/splashScreenBinding.dart';
+import '../controllers & bindings/bindings/viewBindings/chatScreenBinding.dart';
+import '../controllers & bindings/bindings/viewBindings/homeFrameBinding.dart';
+import '../controllers & bindings/bindings/viewBindings/onBoardingScreenBinding.dart';
+import '../controllers & bindings/bindings/viewBindings/profileScreenBinding.dart';
+import '../controllers & bindings/bindings/viewBindings/signinScreenBinding.dart';
+import '../controllers & bindings/bindings/viewBindings/signupScreenBinding.dart';
+import '../controllers & bindings/bindings/viewBindings/splashScreenBinding.dart';
 import '../screens & pages/chatScreen.dart';
 import '../screens & pages/homeFrame.dart';
 import '../screens & pages/onBoardingScreen.dart';
@@ -23,8 +25,9 @@ class ROUTES {
   static String get getForgotPasswordScreenRoute => "/ForgotPasswordScreen";
   static String get getOtpScreenRoute => "/OtpScreen";
   static String get getHomeFrameRoute => "/HomeFrame";
-  static String get getProfileScreenRoute => '/Profile';
+  static String get getProfileScreenRoute => '/ProfileScreen';
   static String get getChatScreenRoute => "/ChatScreen";
+  static String get getAddAContractScreenRoute => "/AddAContractScreen";
 
   static List<GetPage> routes = [
     GetPage(
@@ -61,6 +64,11 @@ class ROUTES {
       name: getChatScreenRoute,
       page: () => ChatScreen(),
       binding: ChatScreenBinding(),
+    ),
+    GetPage(
+      name: getAddAContractScreenRoute,
+      page: () => AddAContactScreen(),
+      binding: AddAContractScreenBindings(),
     )
   ];
 }

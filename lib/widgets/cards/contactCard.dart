@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:only_friends/controllers%20&%20bindings/controllers/globalControllers/authenticationController.dart';
+import 'package:only_friends/data/models/userModel.dart';
 
 import '../../data/constants/app_constants.dart';
 import '../functionalWidgets/showPopUpContactDetails.dart';
 import '../customDivider.dart';
 
 class ContactCard extends StatelessWidget {
-  const ContactCard({
+  final UserModel userModel;
+  ContactCard({
     Key? key,
+    required this.userModel,
   }) : super(key: key);
+
+  AuthenticationController authenticationController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -22,23 +29,36 @@ class ContactCard extends StatelessWidget {
             children: [
               GestureDetector(
                 onTap: () {
-                  showUserDataPopUp();
+                  showUserDataPopUp(userModel: userModel);
                 },
                 child: CircleAvatar(
                   radius: 25,
-                  backgroundImage: NetworkImage(
-                      'https://images.unsplash.com/photo-1524638431109-93d95c968f03?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80'),
+                  backgroundImage: NetworkImage(userModel.profilePictureUrl),
                 ),
               ),
               const SizedBox(
                 width: 8,
               ),
-              Text(
-                "Budia Chan",
-                style: AppConstants.labelMid_TextStyle.copyWith(
-                  color: Colors.black.withOpacity(.8),
-                  fontSize: 12,
-                ),
+              Row(
+                children: [
+                  Text(
+                    userModel.username,
+                    style: AppConstants.labelMid_TextStyle.copyWith(
+                      color: Colors.black.withOpacity(.8),
+                      fontSize: 12,
+                    ),
+                  ),
+                  userModel.userUniqueId ==
+                          authenticationController.userModel!.userUniqueId
+                      ? Text(
+                          " (You)",
+                          style: AppConstants.labelMid_TextStyle.copyWith(
+                            color: Colors.black.withOpacity(.8),
+                            fontSize: 12,
+                          ),
+                        )
+                      : const SizedBox.shrink(),
+                ],
               ),
             ],
           ),

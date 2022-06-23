@@ -5,11 +5,12 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:only_friends/data/constants/app_constants.dart';
 import 'package:only_friends/routing/routes.dart';
-import 'package:only_friends/controllers%20&%20bindings/controllers/authenticationController.dart';
+import 'package:only_friends/controllers%20&%20bindings/controllers/globalControllers/authenticationController.dart';
 
-import '../../screens & pages/signupReviewDetailScreen.dart';
-import '../../services/imageServices.dart';
-import '../../widgets/functionalWidgets/customSnackbar.dart';
+import '../../../screens & pages/signupReviewDetailScreen.dart';
+import '../../../services/imageServices.dart';
+import '../../../widgets/functionalWidgets/customSnackbar.dart';
+
 
 class SignupScreenController extends GetxController {
   Uint8List? profileImage;

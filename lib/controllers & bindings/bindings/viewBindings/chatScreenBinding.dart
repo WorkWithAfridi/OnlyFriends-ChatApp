@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-import '../controllers/chatScreenController.dart';
+import '../../controllers/viewControllers/chatScreenController.dart';
 
 class ChatScreenBinding extends Bindings {
   @override

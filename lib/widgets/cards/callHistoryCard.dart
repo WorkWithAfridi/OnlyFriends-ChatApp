@@ -22,7 +22,7 @@ class CallHistoryCard extends StatelessWidget {
             children: [
               GestureDetector(
                 onTap: () {
-                  showUserDataPopUp();
+                  // showUserDataPopUp();
                 },
                 child: CircleAvatar(
                   radius: 25,

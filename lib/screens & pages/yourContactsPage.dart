@@ -1,16 +1,22 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:only_friends/controllers%20&%20bindings/controllers/globalControllers/authenticationController.dart';
+import 'package:only_friends/data/models/userModel.dart';
+import 'package:only_friends/routing/routes.dart';
 import '../../../widgets/cards/contactCard.dart';
 import '../../../widgets/customDivider.dart';
 import '../data/constants/app_constants.dart';
+import '../widgets/customCircularProgressLoadingIndicator.dart';
 import 'addAContactScreen.dart';
 import 'createReferralCodeScreen.dart';
 
-class StartANewChatPage extends StatelessWidget {
-  const StartANewChatPage({Key? key}) : super(key: key);
+class YourContactsPage extends StatelessWidget {
+  YourContactsPage({Key? key}) : super(key: key);
+  AuthenticationController authenticationController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -63,9 +69,7 @@ class StartANewChatPage extends StatelessWidget {
                   ),
                   GestureDetector(
                     onTap: () {
-                      Get.to(
-                        () => AddAContactScreen(),
-                      );
+                      Get.toNamed(ROUTES.getAddAContractScreenRoute);
                     },
                     child: Container(
                       height: 50,
@@ -81,7 +85,7 @@ class StartANewChatPage extends StatelessWidget {
                               borderRadius: BorderRadius.circular(50),
                               gradient: AppConstants.customGradient,
                             ),
-                            child: Icon(
+                            child: const Icon(
                               Icons.add,
                               size: 20,
                               color: AppConstants.customWhite,
@@ -113,7 +117,7 @@ class StartANewChatPage extends StatelessWidget {
                           borderRadius: BorderRadius.circular(50),
                           gradient: AppConstants.customGradient,
                         ),
-                        child: Icon(
+                        child: const Icon(
                           Icons.group_add,
                           size: 20,
                           color: AppConstants.customWhite,
@@ -153,7 +157,7 @@ class StartANewChatPage extends StatelessWidget {
                               color: Colors.green,
                               gradient: AppConstants.customGradient,
                             ),
-                            child: Icon(
+                            child: const Icon(
                               FontAwesomeIcons.gift,
                               size: 18,
                               color: AppConstants.customWhite,
@@ -186,14 +190,43 @@ class StartANewChatPage extends StatelessWidget {
                   const SizedBox(
                     height: 10,
                   ),
-                  ListView.builder(
-                    itemCount: 10,
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      return ContactCard();
+                  StreamBuilder(
+                    stream: FirebaseFirestore.instance
+                        .collection('users')
+                        .where(
+                          "userUniqueId",
+                          whereIn:
+                              authenticationController.userModel!.friendList,
+                        )
+                        .snapshots(),
+                    builder: (context,
+                        AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
+                            snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const CustomCircularProgressLoadingIndicator();
+                      }
+                      return ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: snapshot.data!.docs.length,
+                        itemBuilder: (context, index) {
+                          return ContactCard(
+                            userModel: UserModel.fromSnapshot(
+                              snapshot.data!.docs[index],
+                            ),
+                          );
+                        },
+                      );
                     },
                   ),
+                  // ListView.builder(
+                  //   itemCount: 10,
+                  //   shrinkWrap: true,
+                  //   physics: const NeverScrollableScrollPhysics(),
+                  //   itemBuilder: (context, index) {
+                  //     return ContactCard();
+                  //   },
+                  // ),
                 ],
               ),
             ),

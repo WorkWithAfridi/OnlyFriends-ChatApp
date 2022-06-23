@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
-import 'package:only_friends/controllers%20&%20bindings/controllers/authenticationController.dart';
+import 'package:only_friends/controllers%20&%20bindings/controllers/globalControllers/authenticationController.dart';
 
-import '../controllers & bindings/controllers/homeFrameController.dart';
+import '../controllers & bindings/controllers/viewControllers/homeFrameController.dart';
 import '../data/constants/app_constants.dart';
 import '../routing/routes.dart';
 import '../widgets/appData/appIconTitle.dart';
 import 'callHistoryPage.dart';
 import 'homePage.dart';
-import 'startNewChatPage.dart';
+import 'yourContactsPage.dart';
 
 List<Widget> HomeFramePages = [
   HomePage(),
-  StartANewChatPage(),
+  YourContactsPage(),
   CallHistoryPage()
 ];
 
@@ -36,7 +36,7 @@ class HomeFrame extends StatelessWidget {
               Get.toNamed(ROUTES.getProfileScreenRoute);
             },
             child: CircleAvatar(
-              radius: 14,
+              radius: 16,
               backgroundColor: AppConstants.customWhite,
               backgroundImage: NetworkImage(
                 authenticationController.userModel!.profilePictureUrl,

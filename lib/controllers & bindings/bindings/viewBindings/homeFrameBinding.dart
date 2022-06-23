@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-import '../controllers/homeFrameController.dart';
+import '../../controllers/viewControllers/homeFrameController.dart';
 
 
 class HomeFrameBinding extends Bindings {

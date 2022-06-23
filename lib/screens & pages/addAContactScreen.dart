@@ -2,13 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
+import 'package:only_friends/controllers%20&%20bindings/controllers/viewControllers/addAContactScreenController.dart';
+import 'package:only_friends/widgets/customButton.dart';
 import '../../../../widgets/customBackButton.dart';
 import '../data/constants/app_constants.dart';
 import '../widgets/appData/appIcon.dart';
 import '../widgets/customTextField.dart';
 
 class AddAContactScreen extends StatelessWidget {
-  const AddAContactScreen({Key? key}) : super(key: key);
+  AddAContactScreen({Key? key}) : super(key: key);
+
+  AddAContractScreenController controller = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -36,9 +40,9 @@ class AddAContactScreen extends StatelessWidget {
               height: 10,
             ),
             Text(
-              "Just paste in their #USERID, and start chatting! :)",
+              "Just paste in their OnlyFriends ID, and start chatting! :)",
               style: AppConstants.body_TextStyle.copyWith(
-                color: Colors.black.withOpacity(.8),
+                color: AppConstants.darkGrey,
               ),
               textAlign: TextAlign.center,
             ),
@@ -46,37 +50,22 @@ class AddAContactScreen extends StatelessWidget {
               height: 15,
             ),
             GetTextField(
-              textEditingController: TextEditingController(),
-              hintText: "Enter user_id...",
+              textEditingController:
+                  controller.onlyFriendsIdTextEditingController.value,
+              hintText: "OnlyFriends ID",
               textInputType: TextInputType.text,
               maxLines: 1,
             ),
             const SizedBox(
               height: 15,
             ),
-            GestureDetector(
-              onTap: () {},
-              child: Container(
-                height: 50,
-                width: Get.height,
-                decoration: BoxDecoration(
-                  gradient: const LinearGradient(
-                    colors: [
-                      AppConstants.primaryColor,
-                      AppConstants.secondaryColor,
-                    ],
-                    begin: Alignment.topRight,
-                    end: Alignment.bottomLeft,
-                  ),
-                  borderRadius: BorderRadius.circular(5),
-                ),
-                alignment: Alignment.center,
-                child: Text(
-                  "Add",
-                  style: AppConstants.labelMid_TextStyle.copyWith(
-                    color: AppConstants.customWhite,
-                  ),
-                ),
+            Obx(
+              () => CustomButton(
+                callBackFunction: () {
+                  controller.onAddButtonClick();
+                },
+                title: "Add",
+                isLoading: controller.showAddButtonLoadingAnimation.value,
               ),
             ),
           ],

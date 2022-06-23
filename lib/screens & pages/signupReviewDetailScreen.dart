@@ -3,7 +3,7 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 
-import '../controllers & bindings/controllers/signupScreenController.dart';
+import '../controllers & bindings/controllers/viewControllers/signupScreenController.dart';
 import '../data/constants/app_constants.dart';
 import '../widgets/customBackButton.dart';
 import '../widgets/customButton.dart';

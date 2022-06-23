@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-import '../../routing/routes.dart';
+import '../../../routing/routes.dart';
 
 class OnBoardingScreenController extends GetxController {
   var pageIndex = 0.obs;
