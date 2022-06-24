@@ -44,7 +44,7 @@ class HomeFrame extends StatelessWidget {
             ),
           ),
           const SizedBox(
-            width: 20,
+            width: 15,
           ),
         ],
       ),

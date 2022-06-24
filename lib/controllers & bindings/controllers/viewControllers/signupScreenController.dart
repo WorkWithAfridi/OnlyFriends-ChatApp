@@ -11,7 +11,6 @@ import '../../../screens & pages/signupReviewDetailScreen.dart';
 import '../../../services/imageServices.dart';
 import '../../../widgets/functionalWidgets/customSnackbar.dart';
 
-
 class SignupScreenController extends GetxController {
   Uint8List? profileImage;
   var usernameTextEditingController = TextEditingController().obs;
@@ -35,7 +34,13 @@ class SignupScreenController extends GetxController {
       Get.to(
         () => SignupReviewUserDetailsScreen(),
       );
-    } else {}
+    } else {
+      showCustomSnackBar(
+        title: "Error",
+        message: "You need to fill up the form to proceed!",
+        isError: true,
+      );
+    }
   }
 
   onRegisterButtonClick() async {

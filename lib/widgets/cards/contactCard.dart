@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:only_friends/controllers%20&%20bindings/controllers/globalControllers/authenticationController.dart';
 import 'package:only_friends/data/models/userModel.dart';
+import 'package:only_friends/routing/routes.dart';
+import 'package:only_friends/screens%20&%20pages/profileScreen.dart';
 
 import '../../data/constants/app_constants.dart';
 import '../functionalWidgets/showPopUpContactDetails.dart';
@@ -29,6 +31,11 @@ class ContactCard extends StatelessWidget {
             children: [
               GestureDetector(
                 onTap: () {
+                  if (userModel.uid ==
+                      authenticationController.userModel!.uid) {
+                    Get.toNamed(ROUTES.getProfileScreenRoute);
+                    return;
+                  }
                   showUserDataPopUp(userModel: userModel);
                 },
                 child: CircleAvatar(

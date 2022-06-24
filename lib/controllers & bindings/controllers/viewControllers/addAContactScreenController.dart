@@ -17,12 +17,14 @@ class AddAContractScreenController extends GetxController {
       showAddButtonLoadingAnimation.value = true;
       await Future.delayed(AppConstants.waitTime);
       String isSuccess = await firebaseController.addAContact(
-          OnlyFriendId: onlyFriendsIdTextEditingController.value.text,
-          userUid: authenticationController.userModel!.uid);
+        OnlyFriendId: onlyFriendsIdTextEditingController.value.text,
+      );
       if (isSuccess == "Success") {
+        _resetTextEditingControllerAndReturn();
         showCustomSnackBar(
             title: "Yaay!!", message: "You have a new friend! :)");
       } else {
+        _resetTextEditingControllerAndReturn();
         String errorMessage = isSuccess;
         showCustomSnackBar(
             title: "Error", message: errorMessage, isError: true);
@@ -30,9 +32,15 @@ class AddAContractScreenController extends GetxController {
       showAddButtonLoadingAnimation.value = false;
     } else {
       showCustomSnackBar(
-          title: "Error",
-          message: "You need to add a valid OnlyFriends ID.",
-          isError: true);
+        title: "Error",
+        message: "You need to add a valid OnlyFriends ID.",
+        isError: true,
+      );
     }
+  }
+
+  void _resetTextEditingControllerAndReturn() {
+    Get.back();
+    onlyFriendsIdTextEditingController.value.text = "";
   }
 }

@@ -190,6 +190,9 @@ class YourContactsPage extends StatelessWidget {
                   const SizedBox(
                     height: 10,
                   ),
+                  ContactCard(
+                    userModel: authenticationController.userModel!,
+                  ),
                   StreamBuilder(
                     stream: FirebaseFirestore.instance
                         .collection('users')
@@ -210,10 +213,15 @@ class YourContactsPage extends StatelessWidget {
                         physics: const NeverScrollableScrollPhysics(),
                         itemCount: snapshot.data!.docs.length,
                         itemBuilder: (context, index) {
+                          UserModel contactUserModel = UserModel.fromSnapshot(
+                            snapshot.data!.docs[index],
+                          );
+                          if (contactUserModel.uid ==
+                              authenticationController.userModel!.uid) {
+                            return const SizedBox.shrink();
+                          }
                           return ContactCard(
-                            userModel: UserModel.fromSnapshot(
-                              snapshot.data!.docs[index],
-                            ),
+                            userModel: contactUserModel,
                           );
                         },
                       );

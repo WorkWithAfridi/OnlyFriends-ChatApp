@@ -98,6 +98,9 @@ class HomePage extends StatelessWidget {
                           const SizedBox(
                             width: 20,
                           ),
+                          StoryCard(
+                            userModel: authenticationController.userModel!,
+                          ),
                           StreamBuilder(
                             stream: FirebaseFirestore.instance
                                 .collection('users')
@@ -121,10 +124,16 @@ class HomePage extends StatelessWidget {
                                 scrollDirection: Axis.horizontal,
                                 itemCount: snapshot.data!.docs.length,
                                 itemBuilder: (context, index) {
+                                  UserModel storyUserModel =
+                                      UserModel.fromSnapshot(
+                                    snapshot.data!.docs[index],
+                                  );
+                                  if (storyUserModel.uid ==
+                                      authenticationController.userModel!.uid) {
+                                    return const SizedBox.shrink();
+                                  }
                                   return StoryCard(
-                                    userModel: UserModel.fromSnapshot(
-                                      snapshot.data!.docs[index],
-                                    ),
+                                    userModel: storyUserModel,
                                   );
                                 },
                               );
