@@ -139,15 +139,6 @@ class HomePage extends StatelessWidget {
                               );
                             },
                           ),
-                          // ListView.builder(
-                          //   itemCount: 10,
-                          //   shrinkWrap: true,
-                          //   physics: const NeverScrollableScrollPhysics(),
-                          //   scrollDirection: Axis.horizontal,
-                          //   itemBuilder: (context, index) {
-                          //     return StoryCard();
-                          //   },
-                          // ),
                           const SizedBox(
                             width: 8,
                           ),
@@ -174,25 +165,8 @@ class HomePage extends StatelessWidget {
                         const SizedBox(
                           height: 5,
                         ),
-                        StreamBuilder(
-                          stream: FirebaseFirestore.instance
-                              .collection('chatChannels')
-                              .where(
-                                "chatChannelId",
-                                whereIn: authenticationController
-                                    .userModel!.chatChannels,
-                              )
-                              .snapshots(),
-                          builder: (context,
-                              AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
-                                  snapshot) {
-                            if (snapshot.connectionState ==
-                                ConnectionState.waiting) {
-                              return const CustomCircularProgressLoadingIndicator();
-                            }
-                            print(snapshot.data!.docs.length);
-                            if (snapshot.data!.docs.length < 1) {
-                              return Container(
+                        authenticationController.userModel!.chatChannels.isEmpty
+                            ? SizedBox(
                                 width: double.maxFinite,
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -227,22 +201,83 @@ class HomePage extends StatelessWidget {
                                     ),
                                   ],
                                 ),
-                              );
-                            }
-                            return ListView.builder(
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemCount: snapshot.data!.docs.length,
-                              itemBuilder: (context, index) {
-                                return MessageCard(
-                                  chatModel: ChatChannelModel.fromSnapshot(
-                                    snapshot.data!.docs[index],
-                                  ),
-                                );
-                              },
-                            );
-                          },
-                        ),
+                              )
+                            : StreamBuilder(
+                                stream: FirebaseFirestore.instance
+                                    .collection('chatChannels')
+                                    .where(
+                                      "chatChannelId",
+                                      whereIn: authenticationController
+                                          .userModel!.chatChannels,
+                                    )
+                                    .snapshots(),
+                                builder: (context,
+                                    AsyncSnapshot<
+                                            QuerySnapshot<Map<String, dynamic>>>
+                                        snapshot) {
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.waiting) {
+                                    return const CustomCircularProgressLoadingIndicator();
+                                  }
+                                  if (snapshot.data!.docs.length < 1) {
+                                    return SizedBox(
+                                      width: double.maxFinite,
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            "It's quite empty down here. :)\n Maybe add someone and start chatting!!",
+                                            textAlign: TextAlign.center,
+                                            style: AppConstants.body_TextStyle
+                                                .copyWith(
+                                              color:
+                                                  Colors.black.withOpacity(.7),
+                                            ),
+                                          ),
+                                          GestureDetector(
+                                            onTap: () {
+                                              homeFrameController
+                                                  .pageIndex.value = 1;
+                                              homeFrameController
+                                                  .homeFramePageController.value
+                                                  .jumpToPage(
+                                                1,
+                                              );
+                                            },
+                                            child: Text(
+                                              "Get Started!!",
+                                              style: AppConstants.body_TextStyle
+                                                  .copyWith(
+                                                      color: AppConstants
+                                                          .secondaryColor
+                                                          .withOpacity(.8),
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  }
+                                  return ListView.builder(
+                                    shrinkWrap: true,
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    itemCount: snapshot.data!.docs.length,
+                                    itemBuilder: (context, index) {
+                                      return MessageCard(
+                                        chatModel:
+                                            ChatChannelModel.fromSnapshot(
+                                          snapshot.data!.docs[index],
+                                        ),
+                                      );
+                                    },
+                                  );
+                                },
+                              ),
                       ],
                     ),
                   )

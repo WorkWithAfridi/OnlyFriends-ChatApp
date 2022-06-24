@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:only_friends/controllers%20&%20bindings/controllers/globalControllers/authenticationController.dart';
 import 'package:only_friends/controllers%20&%20bindings/controllers/globalControllers/firebaseController.dart';
+import 'package:only_friends/controllers%20&%20bindings/controllers/viewControllers/chatScreenController.dart';
+import 'package:only_friends/controllers%20&%20bindings/controllers/viewControllers/profileScreenController.dart';
 import 'package:only_friends/data/models/userModel.dart';
 import 'package:only_friends/screens%20&%20pages/chatScreen.dart';
 
@@ -113,8 +115,22 @@ void showUserDataPopUp({required UserModel userModel}) {
                                   userUid:
                                       authenticationController.userModel!.uid,
                                 );
+
+                                Get.lazyPut(() => ChatScreenController());
                                 Get.back();
-                                Get.to(() => ChatScreen());
+                                ChatScreenController
+                                    chatScreenController = Get.find();
+
+                                chatScreenController.chatFriendUserModel =
+                                    userModel;
+                                chatScreenController.chatChannelId =
+                                    isSuccess.substring(
+                                  7,
+                                  isSuccess.length,
+                                );
+                                Get.to(
+                                  () => ChatScreen(),
+                                );
                               },
                               child: Container(
                                 height: 50,

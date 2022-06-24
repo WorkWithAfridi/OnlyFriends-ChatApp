@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:only_friends/data/models/messageModel.dart';
 
 import '../../data/constants/app_constants.dart';
+import '../../data/models/userModel.dart';
 
 class UserTwoChatMessageLayout extends StatelessWidget {
+  final MessageModel messageModel;
+  final UserModel friendUserModel;
   const UserTwoChatMessageLayout({
     Key? key,
+    required this.messageModel,
+    required this.friendUserModel,
   }) : super(key: key);
 
   @override
@@ -18,13 +24,15 @@ class UserTwoChatMessageLayout extends StatelessWidget {
           CircleAvatar(
             radius: 15,
             backgroundImage: NetworkImage(
-                'https://images.unsplash.com/photo-1524638431109-93d95c968f03?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80'),
+              friendUserModel.profilePictureUrl,
+            ),
           ),
           const SizedBox(
             width: 5,
           ),
           Expanded(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
                   padding: const EdgeInsets.symmetric(
@@ -39,7 +47,7 @@ class UserTwoChatMessageLayout extends StatelessWidget {
                         bottomRight: Radius.circular(15),
                       )),
                   child: Text(
-                    "Morbi in sem quis dui placerat ornare. Pellentesque odio nisi, euismod in, pharetra a, ultricies in, diam. Sed arcu. Cras consequat.",
+                    messageModel.message,
                     style: AppConstants.body_TextStyle,
                   ),
                 ),

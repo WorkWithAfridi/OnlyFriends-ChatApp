@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:only_friends/controllers%20&%20bindings/controllers/globalControllers/authenticationController.dart';
 import 'package:only_friends/data/models/chatChannelModel.dart';
+import 'package:only_friends/data/models/messageModel.dart';
 import 'package:only_friends/data/models/userModel.dart';
 import 'package:uuid/uuid.dart';
 
@@ -57,16 +58,50 @@ class FirebaseController extends GetxController {
           friendUid,
         ],
       );
+      String messageId = DateTime.now().toString();
+      MessageModel initialMessage = MessageModel.name(
+          messageId: messageId,
+          ownerUid: "admin",
+          message: "Begining of a new story!");
       await _firestore
           .collection('chatChannels')
           .doc(chatChannelId)
           .set(chatChannelModel.toJson());
+
+      await _firestore
+          .collection('chatChannels')
+          .doc(chatChannelId)
+          .collection('messages')
+          .doc(messageId)
+          .set(initialMessage.toJson());
       await _firestore.collection('users').doc(userUid).update({
         'chatChannels': FieldValue.arrayUnion([chatChannelId])
       });
       await _firestore.collection('users').doc(friendUid).update({
         'chatChannels': FieldValue.arrayUnion([chatChannelId])
       });
+      return "Success-$chatChannelId";
+    } on FirebaseException catch (error) {
+      return error.message.toString();
+    } catch (error) {
+      return "An error occurred!";
+    }
+  }
+
+  Future<String> sendMessage(
+      {required String chatChannelId, required String message}) async {
+    try {
+      String messageId = DateTime.now().toString();
+      MessageModel messageModel = MessageModel.name(
+          messageId: messageId,
+          ownerUid: authenticationController.userModel!.uid,
+          message: message);
+      await _firestore
+          .collection('chatChannels')
+          .doc(chatChannelId)
+          .collection('messages')
+          .doc(messageId)
+          .set(messageModel.toJson());
       return "Success";
     } on FirebaseException catch (error) {
       return error.message.toString();

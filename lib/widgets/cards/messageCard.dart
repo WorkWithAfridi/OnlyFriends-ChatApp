@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:only_friends/controllers%20&%20bindings/controllers/globalControllers/authenticationController.dart';
+import 'package:only_friends/controllers%20&%20bindings/controllers/viewControllers/chatScreenController.dart';
 import 'package:only_friends/data/models/chatChannelModel.dart';
 import '../../data/constants/app_constants.dart';
 import '../../data/models/userModel.dart';
@@ -15,8 +16,6 @@ class MessageCard extends StatelessWidget {
     Key? key,
     required this.chatModel,
   }) : super(key: key);
-
-  // late Future<UserModel> friendUserModel = getMessageData();
 
   final AuthenticationController authenticationController = Get.find();
 
@@ -50,6 +49,11 @@ class MessageCard extends StatelessWidget {
               children: [
                 GestureDetector(
                   onTap: () {
+                    Get.put(ChatScreenController());
+                    ChatScreenController chatScreenController = Get.find();
+                    chatScreenController.chatChannelId =
+                        chatModel.chatChannelId;
+                    chatScreenController.chatFriendUserModel = snapshot.data;
                     Get.toNamed(ROUTES.getChatScreenRoute);
                   },
                   child: Container(
@@ -61,8 +65,7 @@ class MessageCard extends StatelessWidget {
                       children: [
                         GestureDetector(
                           onTap: () {
-                            // showUserDataPopUp();
-                            // print('clicked');
+                            showUserDataPopUp(userModel: snapshot.data);
                           },
                           child: Stack(
                             children: [
@@ -141,11 +144,11 @@ class MessageCard extends StatelessWidget {
               ],
             );
           } else {
-            return const Text('error 2');
+            return const Text('has no data');
           }
         } else if (snapshot.connectionState == ConnectionState.waiting) {
           // Future in progress
-          return SizedBox.shrink();
+          return const SizedBox.shrink();
         } else {
           return Text("State: ${snapshot.connectionState}");
         }

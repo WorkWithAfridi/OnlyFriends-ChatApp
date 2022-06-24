@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:only_friends/controllers%20&%20bindings/controllers/globalControllers/authenticationController.dart';
 
 import '../../data/constants/app_constants.dart';
+import '../../data/models/messageModel.dart';
 
 class UserOneChatMessageLayout extends StatelessWidget {
-  const UserOneChatMessageLayout({
+  final MessageModel messageModel;
+  UserOneChatMessageLayout({
     Key? key,
+    required this.messageModel,
   }) : super(key: key);
 
+  AuthenticationController authenticationController = Get.find();
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -17,6 +23,7 @@ class UserOneChatMessageLayout extends StatelessWidget {
         children: [
           Expanded(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Container(
                   padding: const EdgeInsets.symmetric(
@@ -32,7 +39,7 @@ class UserOneChatMessageLayout extends StatelessWidget {
                     gradient: AppConstants.customGradient,
                   ),
                   child: Text(
-                    "Morbi in sem quis dui placerat ornare. Pellentesque odio nisi, euismod in, pharetra a, ultricies in, diam. Sed arcu. Cras consequat.",
+                    messageModel.message,
                     style: AppConstants.body_TextStyle.copyWith(
                       color: Colors.white,
                     ),
@@ -64,7 +71,8 @@ class UserOneChatMessageLayout extends StatelessWidget {
           CircleAvatar(
             radius: 15,
             backgroundImage: NetworkImage(
-                'https://images.unsplash.com/photo-1524638431109-93d95c968f03?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80'),
+              authenticationController.userModel!.profilePictureUrl,
+            ),
           ),
         ],
       ),
