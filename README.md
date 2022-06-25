@@ -1,16 +1,28 @@
-# only_friends
+# OnlyFriends
 
-A new Flutter project.
+## A full-stack Chat App using Flutter, Firebase & GetX.
 
-## Getting Started
+A full stack Chat application with authentication, friend adding and removing facility and chatting facilities.
 
-This project is a starting point for a Flutter application.
+* User Authentication using Firebase Authentication
+* Backend using Firebase Cloud Firestore
+* State management using GetX
+* Image compressor and Image cropping achieved using packages from pub.dev
 
-A few resources to get you started if this is your first Flutter project:
+## Demo video and in-app screenshots
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+* [OnlyFriends Demo Video](toBeUpdated!)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+![Demo Image](insetLinkHere?raw=true)
+
+## How to install the app on your physical device
+
+Download the source code and compile the apk using Flutter CLI or Android Studio
+
+## Future Update
+
+Add VOIP and Video calling facility!
+
+## Known Issue
+
+UI doesnot instantly refresh after adding new friend! - PENDING UPDATE
