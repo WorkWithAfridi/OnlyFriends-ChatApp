@@ -5,6 +5,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:only_friends/controllers%20&%20bindings/controllers/globalControllers/authenticationController.dart';
 import 'package:only_friends/controllers%20&%20bindings/controllers/viewControllers/profileScreenController.dart';
+import 'package:only_friends/widgets/functionalWidgets/customSnackbar.dart';
 
 import '../data/constants/app_constants.dart';
 import '../routing/routes.dart';
@@ -73,6 +74,11 @@ class ProfileScreen extends StatelessWidget {
                             text: authenticationController
                                 .userModel!.userUniqueId,
                           ),
+                        );
+                        showCustomSnackBar(
+                          title: "Copied",
+                          message:
+                              "Your OnlyFirends ID has been copied on to your clipboard.",
                         );
                       },
                       child: Column(
@@ -306,6 +312,9 @@ class ProfileScreen extends StatelessWidget {
                         ),
                       ),
                     ),
+                    const SizedBox(
+                      height: 150,
+                    )
                   ],
                 ),
               )

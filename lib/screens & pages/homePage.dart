@@ -207,6 +207,7 @@ class HomePage extends StatelessWidget {
                                 stream: FirebaseFirestore.instance
                                     .collection('chatChannels')
                                     // .orderBy('lastMessageSentAt')
+                                    //cannot use 2 different parameters in 2 methods. Have to use same parameters. Hence sorted at a later stage in the widget tree!
                                     .where(
                                       "chatChannelId",
                                       whereIn: authenticationController

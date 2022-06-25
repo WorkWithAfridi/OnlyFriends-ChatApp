@@ -35,6 +35,7 @@ class FirebaseController extends GetxController {
               .update({
             'friendList': FieldValue.arrayUnion([friendUserModel.userUniqueId])
           });
+          update();
           return "Success";
         } else {
           return "No User Found!";
@@ -81,6 +82,7 @@ class FirebaseController extends GetxController {
       await _firestore.collection('users').doc(friendUid).update({
         'chatChannels': FieldValue.arrayUnion([chatChannelId])
       });
+      update();
       return "Success-$chatChannelId";
     } on FirebaseException catch (error) {
       return error.message.toString();
