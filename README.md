@@ -13,7 +13,7 @@ A full stack Chat application with authentication, friend adding and removing fa
 
 * [OnlyFriends Demo Video](toBeUpdated!)
 
-![Demo Image](insetLinkHere?raw=true)
+![Demo Image]([insetLinkHere](https://github.com/llKYOTOll/OnlyFriends-ChatApp/blob/master/asset/promotional_images/Screenshot%202022-06-25%20194015.png)?raw=true)
 
 ## How to install the app on your physical device
 
