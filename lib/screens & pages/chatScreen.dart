@@ -27,22 +27,6 @@ class _ChatScreenState extends State<ChatScreen> {
   ChatScreenController chatScreenController = Get.find();
 
   AuthenticationController authenticationController = Get.find();
-  ScrollController scrollController = ScrollController();
-
-  @override
-  void initState() {
-    super.initState();
-    setListViewPosition();
-  }
-
-  setListViewPosition() async {
-    if (scrollController.hasClients) {
-      print('has clients');
-      scrollController.jumpTo(
-          chatScreenController.scrollController.position.maxScrollExtent);
-    }
-    print('doesnt have clients');
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -133,7 +117,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   .collection('messages')
                   .orderBy(
                     'messageId',
-                    descending: false,
+                    descending: true,
                   )
                   .snapshots(),
               builder: (context,
@@ -143,10 +127,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 }
                 return Expanded(
                   child: ListView.builder(
-                    controller: scrollController,
-                    // shrinkWrap: true,
-                    // physics: const NeverScrollableScrollPhysics(),
-                    // scrollDirection: Axis.vertical,
+                    reverse: true,
                     itemCount: snapshot.data!.docs.length,
                     itemBuilder: (context, index) {
                       MessageModel messageModel = MessageModel.fromSnapshot(
@@ -178,7 +159,7 @@ class _ChatScreenState extends State<ChatScreen> {
             ),
             Container(
               height: 40,
-              padding: EdgeInsets.symmetric(
+              padding: const EdgeInsets.symmetric(
                 horizontal: 10,
               ),
               child: Row(
@@ -232,7 +213,7 @@ class _ChatScreenState extends State<ChatScreen> {
             ),
             Container(
               height: 55,
-              padding: EdgeInsets.symmetric(horizontal: 15),
+              padding: const EdgeInsets.symmetric(horizontal: 15),
               child: Row(
                 children: [
                   Expanded(

@@ -19,7 +19,9 @@ class AdminMessage extends StatelessWidget {
           ),
           child: Text(
             message,
-            style: AppConstants.body_TextStyle,
+            style: AppConstants.body_TextStyle.copyWith(
+              color: Colors.black.withOpacity(.4),
+            ),
           ),
         ),
       ],
