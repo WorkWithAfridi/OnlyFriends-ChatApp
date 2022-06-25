@@ -3,6 +3,7 @@ import 'package:only_friends/data/models/messageModel.dart';
 
 import '../../data/constants/app_constants.dart';
 import '../../data/models/userModel.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class UserTwoChatMessageLayout extends StatelessWidget {
   final MessageModel messageModel;
@@ -55,7 +56,7 @@ class UserTwoChatMessageLayout extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      '12:00 sunday',
+                      timeago.format(DateTime.parse(messageModel.messageId)),
                       style: AppConstants.labelMid_TextStyle.copyWith(
                         color: AppConstants.lightGrey,
                         fontSize: 10,

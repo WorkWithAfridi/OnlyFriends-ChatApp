@@ -105,6 +105,7 @@ void showUserDataPopUp({required UserModel userModel}) {
                           Expanded(
                             child: GestureDetector(
                               onTap: () async {
+                                Get.lazyPut(() => ChatScreenController());
                                 AuthenticationController
                                     authenticationController = Get.find();
                                 FirebaseController firebaseController =
@@ -116,18 +117,17 @@ void showUserDataPopUp({required UserModel userModel}) {
                                       authenticationController.userModel!.uid,
                                 );
 
-                                Get.lazyPut(() => ChatScreenController());
-                                Get.back();
-                                ChatScreenController
-                                    chatScreenController = Get.find();
+                                ChatScreenController chatScreenController =
+                                    Get.find();
 
                                 chatScreenController.chatFriendUserModel =
                                     userModel;
-                                chatScreenController.chatChannelId =
+                                chatScreenController.chatChannelId.value =
                                     isSuccess.substring(
-                                  7,
+                                  8,
                                   isSuccess.length,
                                 );
+                                Get.back();
                                 Get.to(
                                   () => ChatScreen(),
                                 );

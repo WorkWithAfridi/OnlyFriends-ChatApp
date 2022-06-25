@@ -5,6 +5,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:only_friends/controllers%20&%20bindings/controllers/globalControllers/authenticationController.dart';
 import 'package:only_friends/data/models/chatChannelModel.dart';
+import 'package:only_friends/data/models/messageModel.dart';
 import 'package:only_friends/data/models/userModel.dart';
 import 'package:only_friends/widgets/customCircularProgressLoadingIndicator.dart';
 import '../../widgets/cards/messageCard.dart';
@@ -205,6 +206,7 @@ class HomePage extends StatelessWidget {
                             : StreamBuilder(
                                 stream: FirebaseFirestore.instance
                                     .collection('chatChannels')
+                                    // .orderBy('lastMessageSentAt')
                                     .where(
                                       "chatChannelId",
                                       whereIn: authenticationController
@@ -262,6 +264,15 @@ class HomePage extends StatelessWidget {
                                       ),
                                     );
                                   }
+                                  List<ChatChannelModel> chatChannels = [];
+                                  for (var x in snapshot.data!.docs) {
+                                    chatChannels
+                                        .add(ChatChannelModel.fromSnapshot(x));
+                                  }
+                                  chatChannels.sort(
+                                    (x, y) => y.lastMessageSentAt
+                                        .compareTo(x.lastMessageSentAt),
+                                  );
                                   return ListView.builder(
                                     shrinkWrap: true,
                                     physics:
@@ -269,10 +280,7 @@ class HomePage extends StatelessWidget {
                                     itemCount: snapshot.data!.docs.length,
                                     itemBuilder: (context, index) {
                                       return MessageCard(
-                                        chatModel:
-                                            ChatChannelModel.fromSnapshot(
-                                          snapshot.data!.docs[index],
-                                        ),
+                                        chatModel: chatChannels[index],
                                       );
                                     },
                                   );

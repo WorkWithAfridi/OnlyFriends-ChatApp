@@ -4,11 +4,13 @@ import 'package:get/get.dart';
 import 'package:only_friends/controllers%20&%20bindings/controllers/globalControllers/authenticationController.dart';
 import 'package:only_friends/controllers%20&%20bindings/controllers/viewControllers/chatScreenController.dart';
 import 'package:only_friends/data/models/chatChannelModel.dart';
+import 'package:only_friends/data/models/messageModel.dart';
 import '../../data/constants/app_constants.dart';
 import '../../data/models/userModel.dart';
 import '../../routing/routes.dart';
 import '../functionalWidgets/showPopUpContactDetails.dart';
 import '../customDivider.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class MessageCard extends StatelessWidget {
   final ChatChannelModel chatModel;
@@ -18,6 +20,7 @@ class MessageCard extends StatelessWidget {
   }) : super(key: key);
 
   final AuthenticationController authenticationController = Get.find();
+  late MessageModel messageModel;
 
   Future<UserModel> getChatUserData() async {
     late UserModel temp;
@@ -31,6 +34,34 @@ class MessageCard extends StatelessWidget {
         );
       }
     }
+
+    // messageModel = MessageModel.fromSnapshot(await FirebaseFirestore.instance
+    //     .collection('chatChannels')
+    //     .doc(chatModel.chatChannelId)
+    //     .collection('messages')
+    //     .snapshots()
+    //     .last);
+
+    print(chatModel.chatChannelId);
+
+    try {
+      QuerySnapshot snapshot = await FirebaseFirestore.instance
+          .collection('chatChannels')
+          .doc(chatModel.chatChannelId)
+          .collection('messages')
+          .get();
+      messageModel = MessageModel.fromSnapshot(snapshot.docs.last);
+    } catch (e) {
+      print(e.toString());
+    }
+    print('returning');
+
+    // print(FirebaseFirestore.instance
+    //     .collection('chatChannels')
+    //     .doc(chatModel.chatChannelId)
+    //     .collection('messages')
+    //     .snapshots()
+    //     .last.);
     return temp;
   }
 
@@ -51,7 +82,7 @@ class MessageCard extends StatelessWidget {
                   onTap: () {
                     Get.put(ChatScreenController());
                     ChatScreenController chatScreenController = Get.find();
-                    chatScreenController.chatChannelId =
+                    chatScreenController.chatChannelId.value =
                         chatModel.chatChannelId;
                     chatScreenController.chatFriendUserModel = snapshot.data;
                     Get.toNamed(ROUTES.getChatScreenRoute);
@@ -111,17 +142,20 @@ class MessageCard extends StatelessWidget {
                                 snapshot.data!.username,
                                 style: AppConstants.labelMid_TextStyle.copyWith(
                                   color: AppConstants.primaryColor,
-                                  height: 1.1,
+                                  height: 1,
                                 ),
                               ),
                               const SizedBox(
                                 height: 2,
                               ),
                               Text(
-                                "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros. Nullam malesuada erat ut turpis. Suspendisse urna nibh, viverra non, semper suscipit, posuere a, pede.",
+                                messageModel.ownerUid !=
+                                        authenticationController.userModel!.uid
+                                    ? messageModel.message
+                                    : "You: " + messageModel.message,
                                 style: AppConstants.body_TextStyle.copyWith(
-                                  color: Colors.black.withOpacity(.75),
-                                  height: .95,
+                                  color: Colors.black.withOpacity(.65),
+                                  height: 1,
                                 ),
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
@@ -130,7 +164,8 @@ class MessageCard extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          "12:45 PM",
+                          timeago
+                              .format(DateTime.parse(messageModel.messageId)),
                           style: AppConstants.labelMid_TextStyle.copyWith(
                             fontSize: 10,
                             color: AppConstants.darkGrey,

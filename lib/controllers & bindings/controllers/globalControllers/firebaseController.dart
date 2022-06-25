@@ -52,6 +52,7 @@ class FirebaseController extends GetxController {
     try {
       String chatChannelId = Uuid().v1();
       ChatChannelModel chatChannelModel = ChatChannelModel.name(
+        lastMessageSentAt: DateTime.now().toString(),
         chatChannelId: chatChannelId,
         users: [
           userUid,
@@ -102,6 +103,12 @@ class FirebaseController extends GetxController {
           .collection('messages')
           .doc(messageId)
           .set(messageModel.toJson());
+
+      await _firestore
+          .collection('chatChannels')
+          .doc(chatChannelId)
+          .update({'lastMessageSentAt': DateTime.now()});
+
       return "Success";
     } on FirebaseException catch (error) {
       return error.message.toString();

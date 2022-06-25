@@ -4,6 +4,7 @@ import 'package:only_friends/controllers%20&%20bindings/controllers/globalContro
 
 import '../../data/constants/app_constants.dart';
 import '../../data/models/messageModel.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class UserOneChatMessageLayout extends StatelessWidget {
   final MessageModel messageModel;
@@ -54,7 +55,7 @@ class UserOneChatMessageLayout extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      '12:00 sunday',
+                      timeago.format(DateTime.parse(messageModel.messageId)),
                       style: AppConstants.labelMid_TextStyle.copyWith(
                         color: AppConstants.lightGrey,
                         fontSize: 10,

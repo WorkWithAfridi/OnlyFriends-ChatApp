@@ -8,15 +8,17 @@ class ChatScreenController extends GetxController {
   var messageTextEditingController = TextEditingController().obs;
   ScrollController scrollController = ScrollController();
   late UserModel chatFriendUserModel;
-  late String chatChannelId;
+  var chatChannelId = "".obs;
   final FirebaseController firebaseController = Get.find();
 
   sendMessage() async {
-    String isSUccess = await firebaseController.sendMessage(
-        chatChannelId: chatChannelId,
-        message: messageTextEditingController.value.text);
-    if (isSUccess == "Success") {
-      messageTextEditingController.value.text = '';
+    if (messageTextEditingController.value.text.isNotEmpty) {
+      String isSUccess = await firebaseController.sendMessage(
+          chatChannelId: chatChannelId.value,
+          message: messageTextEditingController.value.text);
+      if (isSUccess == "Success") {
+        messageTextEditingController.value.text = '';
+      }
     }
   }
 }

@@ -30,6 +30,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print(chatScreenController.chatChannelId.value);
     return Scaffold(
       appBar: AppBar(
         leading: CustomBackButton(),
@@ -113,7 +114,7 @@ class _ChatScreenState extends State<ChatScreen> {
             StreamBuilder(
               stream: FirebaseFirestore.instance
                   .collection('chatChannels')
-                  .doc(chatScreenController.chatChannelId)
+                  .doc(chatScreenController.chatChannelId.value)
                   .collection('messages')
                   .orderBy(
                     'messageId',
@@ -258,15 +259,15 @@ class _ChatScreenState extends State<ChatScreen> {
                           obscureText: false,
                         )),
                   ),
-                  const SizedBox(
-                    width: 10,
-                  ),
                   GestureDetector(
                     onTap: () {
                       chatScreenController.sendMessage();
                     },
-                    child: Padding(
-                      padding: const EdgeInsets.all(10.0),
+                    child: Container(
+                      height: double.maxFinite,
+                      alignment: Alignment.center,
+                      color: Colors.transparent,
+                      padding: EdgeInsets.only(left: 15),
                       child: Text(
                         'SEND',
                         style: AppConstants.labelMid_TextStyle.copyWith(
